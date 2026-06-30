@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1d9e75">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Bakery">
+  <meta name="description" content="Baking Kitchen Management System — procurement, stock, production, sales & P&L for bakeries">
+  <title>Bakery Kitchen Manager — Run Your Bakery Like a Business</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.2.0/tabler-icons.min.css">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+
+<!-- ═══════════ LANDING PAGE ═══════════ -->
+<div id="landingPage">
+  <header class="land-header">
+    <div class="land-header-inner">
+      <div class="land-logo"><i class="ti ti-bread"></i> Bakery Kitchen Manager</div>
+      <div class="land-header-actions">
+        <a class="land-link" onclick="goToAuth(false)">Sign in</a>
+        <button class="btn btn-primary" onclick="goToAuth(true)">Start free trial</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="land-hero">
+    <div class="land-hero-inner">
+      <h1>Run your bakery like a real business</h1>
+      <p class="land-hero-sub">Track raw materials, production costs, sales, and profit — across one branch or many — all from your phone or laptop.</p>
+      <div class="land-hero-ctas">
+        <button class="btn btn-primary btn-lg" onclick="goToAuth(true)"><i class="ti ti-rocket"></i> Start your 14-day free trial</button>
+        <span class="land-hero-note">No credit card required</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="land-features">
+    <div class="land-section-inner">
+      <h2>Everything your kitchen needs</h2>
+      <div class="land-features-grid">
+        <div class="land-feature"><i class="ti ti-shopping-cart"></i><h3>Procurement</h3><p>Record every raw material purchase — flour, sugar, oil, eggs — with supplier and cost tracking.</p></div>
+        <div class="land-feature"><i class="ti ti-box"></i><h3>Smart stock alerts</h3><p>Get notified the moment any ingredient runs low, before it disrupts your production.</p></div>
+        <div class="land-feature"><i class="ti ti-tools-kitchen-2"></i><h3>Production tracking</h3><p>Log daily batches and see exactly how much each product costs to make.</p></div>
+        <div class="land-feature"><i class="ti ti-receipt"></i><h3>Sales recording</h3><p>Track units sold per product, filtered by day, week, month, or year.</p></div>
+        <div class="land-feature"><i class="ti ti-chart-bar"></i><h3>Profit & loss</h3><p>See which products earn the most and which quietly eat your margins.</p></div>
+        <div class="land-feature"><i class="ti ti-building-store"></i><h3>Multi-branch</h3><p>Manage several kitchen locations under one account, with consolidated reports.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="land-pricing" id="pricingSection">
+    <div class="land-section-inner">
+      <h2>Simple, honest pricing</h2>
+      <p class="land-section-sub">Start with a 14-day free trial. No credit card needed.</p>
+      <div class="land-pricing-grid" id="pricingGrid"><!-- populated by JS --></div>
+    </div>
+  </section>
+
+  <footer class="land-footer">
+    <p>&copy; <span id="landYear"></span> Bakery Kitchen Manager. All kitchen data stays private to each account.</p>
+  </footer>
+</div>
+
+<!-- ═══════════ AUTH SCREEN (login / register) ═══════════ -->
+<div id="authScreen" style="display:none">
+  <div class="auth-card">
+    <button class="auth-back" onclick="goToLanding()"><i class="ti ti-arrow-left"></i> Back to home</button>
+    <div class="auth-logo"><i class="ti ti-bread"></i><span class="auth-title">Bakery Kitchen Manager</span></div>
+    <div class="auth-sub" id="authSubtitle">Sign in to your kitchen account</div>
+    <div class="auth-error" id="authError"></div>
+
+    <form id="loginForm">
+      <label>Username</label>
+      <input type="text" id="loginUsername" autocomplete="username" required>
+      <label>Password</label>
+      <input type="password" id="loginPassword" autocomplete="current-password" required>
+      <button type="submit" class="btn btn-primary btn-block" style="margin-top:18px"><i class="ti ti-login"></i> Sign in</button>
+    </form>
+
+    <form id="registerForm" style="display:none">
+      <label>Kitchen name</label>
+      <input type="text" id="regKitchenName" placeholder="e.g. Sunrise Bakery" required>
+      <label>Currency</label>
+      <select id="regCurrency">
+        <option value="KES">KES — Kenyan Shilling</option>
+        <option value="USD">USD — US Dollar</option>
+        <option value="UGX">UGX — Ugandan Shilling</option>
+        <option value="TZS">TZS — Tanzanian Shilling</option>
+        <option value="NGN">NGN — Nigerian Naira</option>
+        <option value="GHS">GHS — Ghanaian Cedi</option>
+        <option value="ZAR">ZAR — South African Rand</option>
+        <option value="EUR">EUR — Euro</option>
+        <option value="GBP">GBP — British Pound</option>
+      </select>
+      <label>Admin username</label>
+      <input type="text" id="regUsername" autocomplete="username" required>
+      <label>Password (min. 6 characters)</label>
+      <input type="password" id="regPassword" autocomplete="new-password" required minlength="6">
+      <button type="submit" class="btn btn-primary btn-block" style="margin-top:18px"><i class="ti ti-rocket"></i> Start 14-day free trial</button>
+    </form>
+
+    <div class="auth-switch" id="authSwitch">
+      Don't have a kitchen account? <a onclick="toggleAuthMode()">Start your free trial</a>
+    </div>
+    <div class="auth-hint">Each kitchen's data is completely private and isolated.</div>
+  </div>
+</div>
+
+<!-- ═══════════ MAIN APP (shown after login) ═══════════ -->
+<div id="overlay"></div>
+<div id="app" style="display:none">
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <button id="sidebarClose" aria-label="Close menu"><i class="ti ti-x"></i></button>
+      <div class="kitchen-name" id="sidebarKitchenName">My Baking Kitchen</div>
+      <div class="kitchen-sub" id="sidebarBranchName">Management System</div>
+    </div>
+    <div id="trialBanner" style="display:none"></div>
+    <div id="navContainer"></div>
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="user-avatar" id="userAvatar">A</div>
+        <div class="user-meta">
+          <div class="user-meta-name" id="userChipName">User</div>
+          <div class="user-meta-role" id="userChipRole">role</div>
+        </div>
+        <button class="logout-btn" onclick="logout()" title="Log out"><i class="ti ti-logout-2"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <div id="main">
+    <div id="topbar">
+      <button id="menuToggle" aria-label="Open menu"><i class="ti ti-menu-2"></i></button>
+      <span id="pageTitle">Dashboard</span>
+      <span id="branchSwitcherContainer"></span>
+      <span id="topbarDate"></span>
+      <button class="btn btn-primary" id="installBtn" aria-label="Install app">
+        <i class="ti ti-download"></i> Install app
+      </button>
+    </div>
+    <div id="content">
+      <div style="display:flex;align-items:center;justify-content:center;height:200px;color:var(--text-muted)">
+        <span>Loading...</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="/js/app.js"></script>
+</body>
+</html>
